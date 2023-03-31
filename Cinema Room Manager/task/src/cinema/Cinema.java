@@ -1,68 +1,45 @@
 package cinema;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Cinema {
 
+    public static void printSeats(String[][] r) {
+        System.out.println("Cinema: ");
+        System.out.println(Arrays.deepToString(r)
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", "\n"));
+    }
+
     public static void main(String[] args) {
-        // Write your code here
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+
         System.out.println("Enter the number of rows:");
-        int rows = scanner.nextInt();
-
+        int rows = sc.nextInt();
         System.out.println("Enter the number of seats in each row:");
-        int noOfSeats = scanner.nextInt();
-        
-        System.out.println("Cinema:");
-        System.out.printf(" ");
-        for (int i = 0; i < noOfSeats; i++) {
-            System.out.printf(" " + (i + 1));
-        }
-        System.out.println();
+        int seats = sc.nextInt();
 
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i+1);
-            for (int j = 0; j < noOfSeats; j++) {
-                System.out.print(" S");
+        String[][] arr = new String[rows + 1][seats + 1];
+        for (int i = 0; i <= rows; i++) {
+            for (int j = 0; j <= seats; j++) {
+                arr[i][j] = i == 0 ? String.valueOf(j) : j == 0 ? String.valueOf(i) : "S";
             }
-            System.out.println();
         }
-        System.out.println();
+        arr[0][0] = "  ";
+
+        printSeats(arr);
+
         System.out.println("Enter a row number:");
-        int rowNum = scanner.nextInt();
-
+        int chosenRow = sc.nextInt();
         System.out.println("Enter a seat number in that row:");
-        int seatNum = scanner.nextInt();
+        int chosenSeat = sc.nextInt();
+        int price = rows * seats <= 60 || chosenRow <= rows / 2 ? 10 : 8;
 
+        System.out.println("Ticket price: $" + price);
 
-        int totalSeats = rows * noOfSeats;
-        if (totalSeats <= 60) {
-            System.out.println("Ticket price: $" + 10);
-        } else {
-            if (rowNum <= rows / 2) {
-                System.out.println("Ticket price: $" + 10);
-            } else {
-                System.out.println("Ticket price: $" + 8);
-            }
-        }
+        arr[chosenRow][chosenSeat] = "B";
 
-        System.out.println("Cinema:");
-        System.out.printf(" ");
-        for (int i = 0; i < noOfSeats; i++) {
-            System.out.printf(" " + (i + 1));
-        }
-        System.out.println();
-
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i+1);
-            for (int j = 0; j < noOfSeats; j++) {
-                if(rowNum==i+1 && seatNum==j+1){
-                    System.out.print(" B");
-                } else {
-                    System.out.print(" S");
-                }
-            }
-            System.out.println();
-        }
+        printSeats(arr);
     }
 }
