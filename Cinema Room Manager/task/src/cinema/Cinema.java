@@ -41,5 +41,7 @@ public class Cinema {
         arr[chosenRow][chosenSeat] = "B";
 
         printSeats(arr);
+
+        //Refactoring the whole function and dividing it into 3
     }
 }
