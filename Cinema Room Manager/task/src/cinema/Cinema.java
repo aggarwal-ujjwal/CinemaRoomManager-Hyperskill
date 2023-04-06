@@ -44,4 +44,13 @@ public class Cinema {
 
         //Refactoring the whole function and dividing it into 3
     }
+
+    public static int showTheSeats(){
+        return 0;
+    }
+
+    public static int buyTicket(){
+        return 0;
+    }
+
 }
