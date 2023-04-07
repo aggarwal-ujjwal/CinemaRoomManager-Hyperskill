@@ -1,5 +1,6 @@
 package cinema;
 
+import java.security.KeyPair;
 import java.util.*;
 
 public class Cinema {
@@ -8,6 +9,7 @@ public class Cinema {
     static int currentIncome = 0;
     static int totalIncome = 0;
 
+    private Map<PairKey, String> myMap = new HashMap<>();
 
     public static void printSeats(String[][] r) {
         System.out.println("Cinema: ");
@@ -85,6 +87,9 @@ public class Cinema {
             System.out.println("Wrong input!");
             buyTicket(rows, seats, arr);
         }
+        if(){
+
+        }
         int price = rows * seats <= 60 || chosenRow <= rows / 2 ? 10 : 8;
 
         System.out.println("Ticket price: $" + price + "\n");
@@ -102,5 +107,65 @@ public class Cinema {
         }
     }
 
+    public void addToMap(int id, String name, String value) {
+        PairKey pair = new PairKey(id, name);
+        myMap.put(pair, value);
+    }
 
+    public boolean hasPair(int id, String name) {
+        PairKey pair = new PairKey(id, name);
+        return myMap.containsKey(pair);
+    }
+
+    private static class PairKey {
+        private int id;
+        private int name;
+
+        public PairKey(int id, int name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PairKey pairKey = (PairKey) o;
+            return id == pairKey.id && name == pairKey.name;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = id;
+            result = 31 * result + name;//name.hashCode();
+            return result;
+        }
+    }
+    /*
+    In this example, we define a private inner class PairKey to represent the key of the Map.
+    The PairKey class has fields for the id and name of the pair, and overrides the equals and
+    hashCode methods to ensure that pairs with the same id and name are considered equal.
+
+    The addToMap method adds a new entry to the Map with a key of type PairKey and a value of value.
+
+    The hasPair method checks if a pair with the given id and name exists in the Map by creating a
+    new PairKey object and using the containsKey method of the Map to check if it exists.
+
+    Note that using a custom class to represent the key requires more code than using a library
+    like Apache Commons Lang, but it provides more flexibility and control over the key representation.
+
+    Use of 31
+    The number 31 is often used in the hashCode method in Java because it is an odd prime number.
+     Using a prime number in the hashCode method can help to reduce collisions and improve the
+     distribution of hash values across a range of inputs.
+
+    In particular, multiplying a hash code by 31 has been shown to produce good results for many
+    types of inputs, including strings and other common Java types. This is because 31 is a small
+    prime number that is close to the average length of strings and many other data types, so it
+    can help to distribute the hash values evenly across a range of input values.
+
+    It's worth noting that the choice of 31 is not a hard and fast rule, and other prime numbers
+    could be used in the hashCode method as well. However, 31 has become a common choice in Java and
+    is often recommended in Java code conventions and style guides.
+     */
 }
