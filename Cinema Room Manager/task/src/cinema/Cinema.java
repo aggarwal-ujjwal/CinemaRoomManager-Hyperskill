@@ -8,8 +8,9 @@ public class Cinema {
     static int purchasedTickets = 0;
     static int currentIncome = 0;
     static int totalIncome = 0;
+    private Map<PairKey, Integer> myMap = new HashMap<>();
 
-    private Map<PairKey, String> myMap = new HashMap<>();
+    static Cinema cinema = new Cinema();
 
     public static void printSeats(String[][] r) {
         System.out.println("Cinema: ");
@@ -86,9 +87,12 @@ public class Cinema {
         if(chosenRow>rows || chosenRow<=0 || chosenSeat > seats || chosenSeat <=0){
             System.out.println("Wrong input!");
             buyTicket(rows, seats, arr);
+            return 0;
         }
-        if(){
-
+        if(cinema.hasPair(chosenRow,chosenSeat)){
+            System.out.println("That ticket has already been purchased!");
+            buyTicket(rows, seats, arr);
+            return 0;
         }
         int price = rows * seats <= 60 || chosenRow <= rows / 2 ? 10 : 8;
 
@@ -96,6 +100,7 @@ public class Cinema {
         purchasedTickets++;
         currentIncome += price;
         arr[chosenRow][chosenSeat] = "B";
+        cinema.addToMap(chosenRow,chosenSeat,1);
         return 0;
     }
 
@@ -107,40 +112,17 @@ public class Cinema {
         }
     }
 
-    public void addToMap(int id, String name, String value) {
+    public void addToMap(int id, int name, int value) {
         PairKey pair = new PairKey(id, name);
         myMap.put(pair, value);
     }
 
-    public boolean hasPair(int id, String name) {
+    public boolean hasPair(int id, int name) {
         PairKey pair = new PairKey(id, name);
         return myMap.containsKey(pair);
     }
 
-    private static class PairKey {
-        private int id;
-        private int name;
 
-        public PairKey(int id, int name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            PairKey pairKey = (PairKey) o;
-            return id == pairKey.id && name == pairKey.name;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = id;
-            result = 31 * result + name;//name.hashCode();
-            return result;
-        }
-    }
     /*
     In this example, we define a private inner class PairKey to represent the key of the Map.
     The PairKey class has fields for the id and name of the pair, and overrides the equals and
